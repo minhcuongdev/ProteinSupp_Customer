@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     paddingHorizontal: 20,
     fontSize: 16,
-    lineHeight: 24,
+    lineHeight: 22,
   },
   icon: {
     position: "absolute",
@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     top: 13,
     width: 30,
     height: 30,
-    // backgroundColor: "red",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

@@ -3,21 +3,19 @@ import Color from "src/constants/Color";
 
 const styles = StyleSheet.create({
   container: {
-    width: 150,
-    height: 50,
-    padding: 10,
     backgroundColor: Color.WHITE,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: 25,
+    elevation: 10,
     flexDirection: "row",
-    justifyContent: "space-around",
     alignItems: "center",
-    borderRadius: 30,
-    elevation: 7
   },
-  text: {
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: "center",
-    fontWeight: "500",
+  textInput: {
+    flex: 1,
+    height: 30,
+    lineHeight: 30,
+    marginHorizontal: 10
   }
 })
 

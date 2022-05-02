@@ -1,13 +1,19 @@
 const Color = {
   PRIMARY_RED_COLOR: "#D0131D",
   PRIMARY_YELLOW_COLOR: "#F1A93A",
+  PRIMARY_YELLOW_COLOR_3: "rgba(241, 169, 58, 0.7)",
+  PRIMARY_YELLOW_COLOR_5: "rgba(226, 193, 141, 0.1)",
   SECONDARY_YELLOW_COLOR: "#E2C18D",
   OVERPLAY_COLOR: "#f1f1f1",
   GRAY_01: "#F6F6F6",
   GRAY_02: "#EBEBEB",
   GRAY_03: "#BDBDBD",
+  NEUTRAL_01: "#878585",
   WHITE: "white",
-  BLACK: "rgba(0, 0, 0, 0.6)"
+  WHITE_ACTIVE: "#f1f1f1",
+  BLACK: "rgba(0, 0, 0, 0.6)",
+  TRANSPARENT:"transparent",
+  BLUE_ACTIVE: "rgb(210, 230, 255)"
 }
 
 export default Color
