@@ -4,12 +4,11 @@ import Color from "src/constants/Color";
 const styles = StyleSheet.create({
   productContainer: {
     paddingHorizontal: 15,
-    paddingBottom: 15,
-    width: 160,
+    paddingVertical: 15,
     marginHorizontal: 10,
     marginVertical: 15,
+    width: 160,
     alignItems: "center",
-    backgroundColor: Color.WHITE,
     borderRadius: 20,
     elevation: 10,
   },

@@ -4,7 +4,7 @@ import React from 'react'
 import styles from './PromotionProductStyles'
 import MyText from 'src/components/MyText/MyText'
 import Color from 'src/constants/Color'
-import CartProduct from 'src/components/Card/ProductCard'
+import ProductCard from 'src/components/Card/ProductCard'
 
 const productDummy = [
   {
@@ -71,7 +71,7 @@ const productDummy = [
 const PromotionProduct = () => {
 
   const renderCartProduct = ({ item }) => (
-    <CartProduct nameProduct={item.nameProduct} priceProduct={item.priceProduct} />
+    <ProductCard nameProduct={item.nameProduct} priceProduct={item.priceProduct} />
   );
 
 

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
   headerRight: {
     flexDirection: "row",
-    width: 100,
+    width: 50,
     justifyContent: "space-between"
   },
   icon: {

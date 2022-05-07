@@ -9,6 +9,7 @@ const Color = {
   GRAY_02: "#EBEBEB",
   GRAY_03: "#BDBDBD",
   NEUTRAL_01: "#878585",
+  NEUTRAL_02: "#878585",
   WHITE: "white",
   WHITE_ACTIVE: "#f1f1f1",
   BLACK: "rgba(0, 0, 0, 0.6)",

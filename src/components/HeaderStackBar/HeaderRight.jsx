@@ -12,18 +12,6 @@ const HeaderRight = (props) => {
 
   return (
     <View style={styles.headerRight}>
-      <Pressable style={({ pressed }) => [
-        {
-          backgroundColor: pressed
-            ? Color.SECONDARY_YELLOW_COLOR
-            : Color.PRIMARY_YELLOW_COLOR,
-          borderRadius: 23,
-        },
-      ]}>
-        <View style={styles.icon}>
-          <Ionicons name="filter-outline" size={24} color={Color.WHITE} />
-        </View>
-      </Pressable>
       <Pressable onPress={() => navigation.navigate("My Cart")} style={({ pressed }) => [
         {
           backgroundColor: pressed

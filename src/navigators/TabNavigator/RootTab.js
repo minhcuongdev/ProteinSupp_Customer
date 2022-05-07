@@ -98,6 +98,7 @@ const RootTab = () => (
           borderRadius: 50,
           backgroundColor: Color.WHITE,
         },
+        headerShown: false
       }}
     />
     <Tab.Screen
