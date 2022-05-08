@@ -8,6 +8,8 @@ import MyText from 'src/components/MyText/MyText'
 import Color from 'src/constants/Color'
 import PrimaryButton from 'src/components/PrimaryButton/PrimaryButton'
 
+import { useNavigation } from '@react-navigation/native'
+
 const productDummy = [{
   id: 0,
   name: "Labrada Muscle Mass",
@@ -41,6 +43,7 @@ const productDummy = [{
 }]
 
 const Cart = () => {
+  const navigation = useNavigation()
 
   return (
     <View style={styles.container}>
@@ -58,7 +61,7 @@ const Cart = () => {
         <MyText title={"5.250.000 đ"} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
       </View>
       <View style={styles.button}>
-        <PrimaryButton handleOnPress={() => console.log("checkout")} title={"Checkout"} />
+        <PrimaryButton handleOnPress={() => navigation.navigate("Payment")} title={"Checkout"} />
       </View>
     </View>
   )

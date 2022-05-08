@@ -7,6 +7,8 @@ import PromotionProduct from "src/screens/PromotionProduct/PromotionProduct";
 import Cart from "src/screens/cart/Cart";
 import SingleProduct from "src/screens/singleProduct/SingleProduct";
 import Feedback from "src/screens/feedback/Feedback";
+import Payment from "src/screens/payment/Payment";
+import Address from "src/screens/address/Address";
 
 import HeaderLeft from "src/components/HeaderStackBar/HeaderLeft";
 import HeaderRight from "src/components/HeaderStackBar/HeaderRight";
@@ -62,6 +64,24 @@ const RootStackNavigator = () => {
           <Stack.Screen
             name="Feedback"
             component={Feedback}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Payment"
+            component={Payment}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Address"
+            component={Address}
             options={{
               headerTitleAlign: "center",
               headerTitle: (props) => <HeaderTitle {...props} />,

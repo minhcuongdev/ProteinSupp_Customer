@@ -84,6 +84,31 @@ const styles = StyleSheet.create({
   textPricePr: {
     fontSize: 14,
     lineHeight: 18
+  },
+  addressCardContainer: {
+    marginVertical: 10,
+    marginHorizontal: 15,
+    backgroundColor: Color.WHITE,
+    paddingVertical: 10,
+    paddingLeft: 20,
+    paddingRight: 10,
+    borderRadius: 10,
+    elevation: 10,
+    flexDirection: "row"
+  },
+  infoUserWrapper: {
+    alignItems: "flex-start",
+    flex: 1,
+    justifyContent:"space-between"
+  },
+  nameUserText: {
+    fontSize: 14
+  },
+  iconAddressWrapper: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: 40,
+    paddingBottom: 10
   }
 });
 
