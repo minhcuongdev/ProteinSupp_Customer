@@ -10,9 +10,16 @@ const HeaderLeft = ({ canGoBack }) => {
   const navigation = useNavigation();
 
   return (
-    <View style={styles.headerLeft}>
+    <View>
       {canGoBack &&
-        <Pressable onPress={() => navigation.goBack()}>
+        <Pressable  style={({ pressed }) => [
+          {
+            backgroundColor: pressed
+              ? Color.PRIMARY_YELLOW_COLOR_3
+              : Color.PRIMARY_YELLOW_COLOR
+          },
+          styles.headerLeft
+        ]} onPress={() => navigation.goBack()}>
           <Entypo name="chevron-left" size={24} color={Color.WHITE} />
         </Pressable>
       }

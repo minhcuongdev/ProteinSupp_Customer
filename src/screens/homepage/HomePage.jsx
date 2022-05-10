@@ -1,4 +1,4 @@
-import { View, Image, FlatList, ScrollView } from 'react-native'
+import { View, Image, FlatList, ScrollView, Pressable } from 'react-native'
 import React from 'react'
 import Swiper from 'react-native-swiper'
 
@@ -60,9 +60,11 @@ const HomePage = ({ navigation }) => {
           <MyText title={"Good morning!"} variant="h4" color={Color.PRIMARY_YELLOW_COLOR} style={{ textAlign: "left" }} />
           <MyText title={"Quynh Ton"} variant="body1" color={Color.PRIMARY_YELLOW_COLOR} />
         </View>
-        <Image source={{
-          uri: "https://i.ibb.co/sy1zLNy/Khanh-Quynh.jpg"
-        }} style={styles.avatar} />
+        <Pressable onPress={() => navigation.navigate("Profile")}>
+          <Image source={{
+            uri: "https://i.ibb.co/sy1zLNy/Khanh-Quynh.jpg"
+          }} style={styles.avatar} />
+        </Pressable>
       </View>
       <ScrollView style={{}}>
         <View style={styles.searchContainer}>

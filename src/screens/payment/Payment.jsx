@@ -1,5 +1,5 @@
-import { View, Image } from 'react-native'
-import React from 'react'
+import { View, Image, Text } from 'react-native'
+import React, { useState } from 'react'
 import MyText from 'src/components/MyText/MyText'
 import styles from './PaymentStyles'
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -12,10 +12,15 @@ import MasterCard from 'src/assets/images/masterCard.png'
 import VisaCard from 'src/assets/images/visaCard.png'
 import DiscountButton from 'src/components/DiscountButton/DiscountButton';
 import PrimaryButton from 'src/components/PrimaryButton/PrimaryButton';
+import MyDialog from 'src/components/MyDialog/MyDialog';
 
 const Payment = () => {
   const navigation = useNavigation()
-
+  const [isVisibleDialog, setIsVisibleDialog] = useState(false);
+  const toggleDialog = () => {
+    setIsVisibleDialog(!isVisibleDialog);
+  };
+  
   return (
     <View style={styles.container}>
       <View style={styles.addressContainer}>
@@ -48,10 +53,14 @@ const Payment = () => {
         </View>
         <View style={styles.billItem}>
           <MyText title={"Total"} variant="h3" color={Color.NEUTRAL_03} />
-          <MyText title={"5.260.000 đ"} variant="h1" color={Color.PRIMARY_RED_COLOR} style={{fontSize: 16}} />
+          <MyText title={"5.260.000 đ"} variant="h1" color={Color.PRIMARY_RED_COLOR} style={{ fontSize: 16 }} />
         </View>
       </View>
-      <PrimaryButton title={"Pay now"} handleOnPress={() => console.log("Pay now")} />
+      <PrimaryButton title={"Pay now"} handleOnPress={() => toggleDialog()} />
+      <MyDialog content={"Your payment process has been successfully!"} titleButton={"Got it"} isVisibleDialog={isVisibleDialog} handleOnPress={() => { 
+        toggleDialog()
+        navigation.goBack()
+      }} />
     </View>
   )
 }

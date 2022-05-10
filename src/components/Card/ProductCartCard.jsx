@@ -6,7 +6,7 @@ import Color from 'src/constants/Color'
 import styles from './CardStyles'
 import product from 'src/assets/images/product.jpg'
 import Counter from '../Counter/Counter'
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 
 const ProductCartCard = ({nameProduct, priceProduct, uriImage}) => {
 
@@ -22,11 +22,23 @@ const ProductCartCard = ({nameProduct, priceProduct, uriImage}) => {
       <View style={styles.product}>
         <Image resizeMode='cover' source={product} style={styles.imagePr} />
         <View style={styles.textWrapper}>
-          <MyText title={nameProduct} numberOfLines={1} variant='h1' color={Color.PRIMARY_YELLOW_COLOR} style={styles.textNamePr} />
+          <MyText title={nameProduct} numberOfLines={2} variant='h1' color={Color.PRIMARY_YELLOW_COLOR} style={styles.textNamePr} />
           <MyText title={`${priceProduct} đ`} variant='h1' Color={Color.BLACK} style={styles.textPricePr} />
         </View>
       </View>
-      <Counter />
+      <View style={styles.counterContainer}>
+        <Pressable  style={({ pressed }) => [
+          {
+            backgroundColor: pressed
+              ? Color.WHITE_ACTIVE
+              : Color.WHITE
+          },
+          styles.iconBin
+        ]}>
+          <Ionicons name="md-trash-bin" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
+        </Pressable>
+        <Counter />
+      </View>
     </View>
   )
 }

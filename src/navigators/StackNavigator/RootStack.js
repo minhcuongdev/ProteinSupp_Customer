@@ -9,6 +9,13 @@ import SingleProduct from "src/screens/singleProduct/SingleProduct";
 import Feedback from "src/screens/feedback/Feedback";
 import Payment from "src/screens/payment/Payment";
 import Address from "src/screens/address/Address";
+import NewAddress from "src/screens/NewAddress/NewAddress";
+import Profile from "src/screens/profile/Profile";
+import EditProfile from "src/screens/EditProfile/EditProfile";
+import ChangePassword from "src/screens/ChangePassword/ChangePassword";
+import BigDeal from "src/screens/BigDeal/BigDeal";
+import Gift from "src/screens/gift/Gift";
+import Order from "src/screens/order/Order";
 
 import HeaderLeft from "src/components/HeaderStackBar/HeaderLeft";
 import HeaderRight from "src/components/HeaderStackBar/HeaderRight";
@@ -82,6 +89,70 @@ const RootStackNavigator = () => {
           <Stack.Screen
             name="Address"
             component={Address}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="New Address"
+            component={NewAddress}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={Profile}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerRight: (props) => <HeaderRight isEditProfile={true} {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Edit Profile"
+            component={EditProfile}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Change Password"
+            component={ChangePassword}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+           <Stack.Screen
+            name="Big Deal"
+            component={BigDeal}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Gift"
+            component={Gift}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Order Information"
+            component={Order}
             options={{
               headerTitleAlign: "center",
               headerTitle: (props) => <HeaderTitle {...props} />,

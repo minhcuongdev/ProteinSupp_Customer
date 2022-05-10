@@ -3,7 +3,7 @@ import Color from "src/constants/Color";
 
 const styles = StyleSheet.create({
   headerLeft: {
-    backgroundColor: Color.PRIMARY_YELLOW_COLOR,
+    // backgroundColor: Color.PRIMARY_YELLOW_COLOR,
     width: 46,
     height: 46,
     borderRadius: 23,

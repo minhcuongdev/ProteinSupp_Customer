@@ -5,7 +5,7 @@ import styles from './MyTextFieldStyles'
 import Color from 'src/constants/Color'
 import { useState } from 'react';
 
-const MyTextField = ({value, onChangeText, placeholder , secureTextEntry = false }) => {
+const MyTextField = ({value, onChangeText, placeholder , secureTextEntry = false, style }) => {
   const [isViewText, SetIsViewText] = useState(secureTextEntry)
 
   const handleViewText = () => {
@@ -13,7 +13,7 @@ const MyTextField = ({value, onChangeText, placeholder , secureTextEntry = false
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <TextInput style={styles.input} value={value} onChangeText={onChangeText} secureTextEntry={isViewText} selectionColor={Color.BLACK} placeholderTextColor={Color.GRAY_03} placeholder={placeholder} />
       {secureTextEntry &&
         (isViewText ?

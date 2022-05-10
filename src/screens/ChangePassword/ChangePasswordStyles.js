@@ -5,20 +5,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.WHITE,
+    paddingHorizontal: 25,
+    paddingVertical: 15
   },
-  addressItems: {
-    flex: 1,
-    padding: 10,
-    paddingTop: 20,
-    backgroundColor: Color.WHITE,
+  image :{
+    width: 280,
+    height: 170,
+    alignSelf: "center",
+  },
+  textField: {
+    marginBottom: 20
+  },
+  textFieldContainer: {
+    marginTop: 20,
   },
   buttonContainer: {
-    paddingHorizontal: 25,
-    paddingVertical: 15,
-    marginTop: 10
-  },
-  spacing: {
-    height: 20
+    marginTop: 100
   }
 })
 

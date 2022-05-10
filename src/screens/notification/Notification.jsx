@@ -5,6 +5,7 @@ import styles from './NotificationStyles'
 import { Fontisto, FontAwesome5, Ionicons,  MaterialIcons  } from '@expo/vector-icons';
 import MyText from 'src/components/MyText/MyText';
 import Color from 'src/constants/Color';
+import { useNavigation } from '@react-navigation/native';
 
 const ItemNotificationButton = ({ Icon, nameIcon, colorIcon, sizeIcon, title, description, onPressButton }) => {
   return (
@@ -31,6 +32,8 @@ const ItemNotificationButton = ({ Icon, nameIcon, colorIcon, sizeIcon, title, de
 }
 
 const Notification = () => {
+  const navigation = useNavigation()
+
   return (
     <View style={styles.container}>
       <ItemNotificationButton  
@@ -40,7 +43,7 @@ const Notification = () => {
         colorIcon = {Color.PRIMARY_RED_COLOR}
         title={"Big deal"}
         description={"One deal you must not miss in this month"}
-        onPressButton={() => console.log("Big deal")}
+        onPressButton={() => navigation.navigate("Big Deal")}
       />
       <ItemNotificationButton  
         Icon={FontAwesome5}
@@ -49,7 +52,7 @@ const Notification = () => {
         colorIcon = {Color.PRIMARY_RED_COLOR}
         title={"Gift"}
         description={"You have received a coupon from our shope"}
-        onPressButton={() => console.log("Gift")}
+        onPressButton={() => navigation.navigate("Gift")}
       />
       <ItemNotificationButton  
         Icon={Ionicons}
@@ -58,7 +61,7 @@ const Notification = () => {
         colorIcon = {Color.PRIMARY_RED_COLOR}
         title={"Order Information"}
         description={"Your order has been sent to shipper"}
-        onPressButton={() => console.log("Order Information")}
+        onPressButton={() => navigation.navigate("Order Information")}
       />
       <ItemNotificationButton  
         Icon={MaterialIcons}
