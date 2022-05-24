@@ -16,12 +16,16 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     paddingLeft: 15
   },
+  leftHeaderWrapper:{
+    flexDirection: "row",
+    alignItems: "center"
+  },
   textWrapper: {
-
+    marginLeft: 10
   },
   avatar: {
-    width: 56,
-    height: 56,
+    width: 50,
+    height: 50,
     borderRadius: 28
   },
   searchContainer: {

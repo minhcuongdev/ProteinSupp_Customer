@@ -6,9 +6,11 @@ import MyText from 'src/components/MyText/MyText'
 import Color from 'src/constants/Color'
 import { FontAwesome5, Fontisto, FontAwesome, AntDesign, Ionicons  } from '@expo/vector-icons';
 
-import { useDispatch } from 'react-redux'
-import { logout } from 'src/redux/slices/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from 'src/redux/slices/accountSlice'
 import { useNavigation } from '@react-navigation/native'
+import authApi from 'src/apis/authApi'
+import { saveAccountToDevice, saveAccessTokenToDevice, saveRefreshTokenToDevice, getRefreshTokenFromDevice } from 'src/utils/AsyncStorageLocal'
 
 const ItemSettingButton = ({ Icon, nameIcon, colorIcon, sizeIcon, title, colorTitle, onPressButton }) => {
   return (
@@ -28,6 +30,25 @@ const ItemSettingButton = ({ Icon, nameIcon, colorIcon, sizeIcon, title, colorTi
 const Setting = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  
+
+  const callApi = async (refreshToken) => {
+    try {
+      await authApi.logout(refreshToken)
+      saveAccountToDevice(null)
+      saveAccessTokenToDevice(null)
+      saveRefreshTokenToDevice(null)
+      dispatch(logout())
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  const handleLogout = async () => {
+    const refreshToken = await getRefreshTokenFromDevice()
+    callApi(refreshToken)
+  }
 
   return (
     <View style={styles.container}>
@@ -83,7 +104,7 @@ const Setting = () => {
         colorIcon={Color.PRIMARY_YELLOW_COLOR}
         sizeIcon={24}
         colorTitle={Color.NEUTRAL_01}
-        onPressButton={() => dispatch(logout())}
+        onPressButton={() => handleLogout()}
       />
     </View>
   )

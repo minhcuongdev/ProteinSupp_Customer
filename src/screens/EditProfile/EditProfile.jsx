@@ -8,16 +8,45 @@ import MyEditTextField from 'src/components/MyEditTextField/MyEditTextField';
 import PrimaryButton from 'src/components/PrimaryButton/PrimaryButton';
 import MyDialog from 'src/components/MyDialog/MyDialog';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
+import defaultUserImage from 'src/assets/images/default-user-image.png'
+import userApi from 'src/apis/userApi';
+import { setAccount } from 'src/redux/slices/accountSlice';
+import { saveAccountToDevice } from 'src/utils/AsyncStorageLocal';
+import { MyEditTextFieldBirthday } from 'src/components/MyEditTextField/MyEditTextField';
 
 const EditProfile = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
 
-  const [fullName, setFullName] = useState("Ton Nu Khanh Quynh")
-  const [birthday, setBirthday] = useState("18 August 2001")
-  const [phoneNumber, setPhoneNumber] = useState("0905674xxx")
-  const [address, setAddress] = useState("KTX khu B, ĐHQG-HCM, khu pho 6, Linh Trung, Thu Duc, HCM.")
-  const [gender,setGender] = useState("male")
+  const user = useSelector(state => state.account.account)
+  
+
+  const [fullName, setFullName] = useState(user.username)
+  const [birthday, setBirthday] = useState(user.birthday)
+  const [phoneNumber, setPhoneNumber] = useState(user.phoneNo)
+  const [address, setAddress] = useState(user.address)
+  const [gender,setGender] = useState(user.gender)
   const [isOpenDialog,setIsOpenDialog] = useState(false)
+
+  const handleSave = async () => {
+    try {
+      const payloadUpdateInfoUser = {
+        username: fullName,
+        birthday: birthday,
+        phoneNo: phoneNumber,
+        gender: gender,
+        address: address
+      }
+      const newInfo = await userApi.updateInfoUser(user._id,payloadUpdateInfoUser)
+      dispatch(setAccount(newInfo))
+      saveAccountToDevice(newInfo)
+      toggleDialog()
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   const toggleDialog = () => {
     setIsOpenDialog(pre => !pre)
@@ -28,12 +57,16 @@ const EditProfile = () => {
       <ScrollView style={styles.scroll}>
         <View style={styles.avatarContainer}>
           <View>
-            <Image
+            {user.profilePicture ? <Image
               source={{
-                uri: "https://i.ibb.co/sy1zLNy/Khanh-Quynh.jpg"
+                uri: user.profilePicture
               }}
               style={styles.image}
-            />
+            />: <Image
+            source={defaultUserImage}
+            style={styles.image}
+          />}
+            
             <Pressable onPress={() => console.log("open camera")} style={({ pressed }) => [
               {
                 backgroundColor: pressed
@@ -51,7 +84,7 @@ const EditProfile = () => {
           <MyEditTextField title={"Full name"} value={fullName} setValue={setFullName} />
         </View>
         <View style={styles.textInputContainer}>
-          <MyEditTextField title={"Date of Birth"} value={birthday} setValue={setBirthday} />
+          <MyEditTextFieldBirthday title={"Date of Birth"} value={birthday} setValue={setBirthday} />
         </View>
         <View style={{ height: 100 }}>
           <MyText title={"Gender"} color={Color.NEUTRAL_02} style={{ textAlign: "left", marginBottom: 5 }} />
@@ -72,14 +105,14 @@ const EditProfile = () => {
         </View>
         <MyText title={"Contact Detail"} variant="h1" style={styles.textTitle} color={Color.PRIMARY_YELLOW_COLOR} />
         <View style={styles.textInputContainer}>
-          <MyEditTextField title={"Mobile Phone"} value={phoneNumber} setValue={setPhoneNumber} />
+          <MyEditTextField title={"Mobile Phone"} value={phoneNumber} setValue={setPhoneNumber} keyboardType={"numeric"} />
         </View>
         <View style={styles.textInputContainer}>
           <MyEditTextField title={"Address"} multiline value={address} setValue={setAddress} />
         </View>
       </ScrollView>
       <View style={styles.button}>
-        <PrimaryButton title={"Save"} handleOnPress={() => toggleDialog()} />
+        <PrimaryButton title={"Save"} handleOnPress={() => handleSave()} />
       </View>
       <MyDialog content={"You has been updated your profile successfully!"} titleButton={"Got it"} isVisibleDialog={isOpenDialog} handleOnPress={() => {
         toggleDialog()

@@ -13,15 +13,14 @@ const styles = StyleSheet.create({
   },
   socialButtonWrapper: {
     width: "100%",
-    marginTop: 60,
+    marginTop: 50,
     marginBottom: 40,
     flexDirection: "row",
     justifyContent: "space-between",
   },
   textFieldWrapper: {
     width: "100%",
-    height: 180,
-    justifyContent: "space-around",
+    marginBottom: 40
   },
   textForgotPassword: {
     marginTop: 20,

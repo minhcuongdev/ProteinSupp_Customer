@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     backgroundColor: Color.WHITE,
   },
   title: {
-    marginVertical: 25
+    marginVertical: 15
   },
   body: {
     paddingHorizontal: 15,

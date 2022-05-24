@@ -1,7 +1,7 @@
 import { View, Image, ScrollView, Pressable } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './SingleProductStyles'
-import productImage from 'src/assets/images/product.jpg'
+import productDefaultImage from 'src/assets/images/productDefaultImage.png'
 import MyText from 'src/components/MyText/MyText'
 import { Entypo } from '@expo/vector-icons';
 import Color from 'src/constants/Color'
@@ -10,6 +10,11 @@ import SmallButton from 'src/components/SmallButton/SmallButton'
 import CommentProduct from 'src/components/comment/CommentProduct'
 import PrimaryButton from 'src/components/PrimaryButton/PrimaryButton'
 import { useNavigation } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { getProductById } from 'src/redux/slices/productSlice'
+import { FormatMoney } from 'src/utils/Calculator'
 
 const commentDummy = [{
   id: 0,
@@ -35,25 +40,34 @@ const commentDummy = [{
 
 const SingleProduct = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const product = useSelector(state => state.product.product)
+  const { productId } = useRoute().params
+
+  useEffect(() => {
+    dispatch(getProductById(productId))
+  }, [])
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <Image source={productImage} resizeMode="contain" style={styles.image} />
+        {product?.imageProduct  ?
+          <Image source={{uri: product.imageProduct}} resizeMode="contain" style={styles.image} /> :
+          <Image source={productDefaultImage} resizeMode="contain" style={styles.image} />}
         <View style={styles.priceAndRateProduct}>
           <View style={styles.rateStar}>
             <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
             <MyText title={"4.8"} variant="h2" />
           </View>
-          <MyText title={"1.750.000đ"} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
+          <MyText title={`${FormatMoney(product.price)} đ`} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
         </View>
         <View style={styles.productContainer}>
           <View style={styles.title}>
-            <MyText title={"Labrada Muscle Mass"} numberOfLines={2} style={styles.textTitle} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
+            <MyText title={product.name} numberOfLines={2} style={styles.textTitle} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
             <Counter />
           </View>
           <MyText
-            title={"Muscle Mass Gainer cao năng lượng,hỗ trợ tăng cân nhanh, tăng cơ nạc cho người gầy, người khó tăng cân, cần bulking."}
+            title={product.description}
             variant="h4"
             color={Color.NEUTRAL_01}
             style={styles.text}
@@ -63,19 +77,19 @@ const SingleProduct = () => {
             <MyText title={"Description"} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} style={{ textAlign: "left" }} />
             <View style={styles.textWrapper}>
               <MyText title={"Product ID"} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
-              <MyText title={"MUSCLEMASS"} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
+              <MyText title={product.productId} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
             </View>
             <View style={styles.textWrapper}>
               <MyText title={"Manufacturer"} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
-              <MyText title={"Labrada"} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
+              <MyText title={product.manufacturer} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
             </View>
             <View style={styles.textWrapper}>
               <MyText title={"Origin"} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
-              <MyText title={"United States"} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
+              <MyText title={product.origin} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
             </View>
             <View style={styles.textWrapper}>
               <MyText title={"Manudactuer Price"} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
-              <MyText title={"2.070.000 đ"} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
+              <MyText title={`${product.manufacturerPrice} đ`} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
             </View>
           </View>
           <View style={styles.feedback}>

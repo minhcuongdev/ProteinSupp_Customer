@@ -15,6 +15,17 @@ const styles = StyleSheet.create({
   title: {
     textAlign: "left",
     marginBottom : 5
+  },
+  iconCalender: {
+    padding: 4, 
+    width: 40, 
+    height: 40, 
+    borderRadius: 20, 
+    justifyContent: "center", 
+    alignItems: "center",
+    position: 'absolute',
+    right: 5,
+    top: 4
   }
 })
 

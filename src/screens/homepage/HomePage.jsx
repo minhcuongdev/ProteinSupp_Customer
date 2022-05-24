@@ -1,5 +1,5 @@
 import { View, Image, FlatList, ScrollView, Pressable } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Swiper from 'react-native-swiper'
 
 import styles from './HomePageStyles'
@@ -9,61 +9,92 @@ import Search from 'src/components/Search/Search'
 import SmallButton from 'src/components/SmallButton/SmallButton'
 import ProductCard from 'src/components/Card/ProductCard'
 import ScrollableTabs from 'src/components/ScrollableTabs/ScrollableTabs'
+import { Ionicons } from '@expo/vector-icons';
 
 import banner1 from 'src/assets/images/banner1.jpg'
 import banner2 from 'src/assets/images/banner2.jpg'
 import banner3 from 'src/assets/images/banner3.jpg'
+import defaultImage from 'src/assets/images/default-user-image.png'
 
-const productDummy = [
-  {
-    id: 0,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 1,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 2,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 3,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 4,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-]
+import { useSelector, useDispatch } from 'react-redux'
+import { setProducts, setPromotionalProducts } from 'src/redux/slices/productSlice'
+import productApi from 'src/apis/productApi'
 
 const HomePage = ({ navigation }) => {
+  const user = useSelector(state => state.account.account)
+  const products = useSelector(state => state.product.products)
+  const promotionalProducts = useSelector(state => state.product.promotionalProducts)
+  const [indexCategory, setIndexCategory] = useState(0)
+  const [productCategory, setProductCategory] =useState([])
+  const dispatch = useDispatch()
+
+  const callApi = async () => {
+    try {
+      const products = await productApi.getAllProduct()
+
+      const promotionalProduct = products.filter(product => product.promotional)
+      dispatch(setProducts(products))
+      dispatch(setPromotionalProducts(promotionalProduct))
+      
+      const proteinGainWeight = products.filter(product => product?.typeProduct.includes("Protein & gain weight"))
+      setProductCategory(proteinGainWeight)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    callApi()
+  }, [])
+
+  const renderCategoryProducts = () => {
+    switch (indexCategory) {
+      case 0:
+        const proteinGainWeight = products.filter(product => product?.typeProduct.includes("Protein & gain weight"))
+        setProductCategory(proteinGainWeight)
+        break
+      case 1:
+        const proteinEnergyHealth = products.filter(product => product?.typeProduct.includes("Energy & Health"))
+        setProductCategory(proteinEnergyHealth)
+        break
+      case 2:
+        const proteinLoseFatLoseWeight = products.filter(product => product?.typeProduct.includes("Lose fat & Lose weight"))
+        setProductCategory(proteinLoseFatLoseWeight)
+        break
+      default:
+        break
+    }
+  }
+
+  useEffect(() => {
+    renderCategoryProducts()
+  },[indexCategory])
 
   const renderCartProduct = ({ item }) => (
-    <ProductCard nameProduct={item.nameProduct} priceProduct={item.priceProduct} />
+    <ProductCard nameProduct={item.name} priceProduct={item.price} uriImage={item.imageProduct} productId={item._id} />
   );
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.textWrapper}>
-          <MyText title={"Good morning!"} variant="h4" color={Color.PRIMARY_YELLOW_COLOR} style={{ textAlign: "left" }} />
-          <MyText title={"Quynh Ton"} variant="body1" color={Color.PRIMARY_YELLOW_COLOR} />
+        <View style={styles.leftHeaderWrapper}>
+          <Pressable onPress={() => navigation.navigate("Profile")}>
+            {user.profilePicture.length > 0 ?
+              <Image source={{
+                uri: "https://i.ibb.co/sy1zLNy/Khanh-Quynh.jpg"
+              }} style={styles.avatar} />
+              :
+              <Image source={defaultImage} style={styles.avatar} />
+            }
+          </Pressable>
+          <View style={styles.textWrapper}>
+            <MyText title={"Good morning!"} variant="h4" color={Color.PRIMARY_YELLOW_COLOR} style={{ textAlign: "left" }} />
+            <MyText title={user.username} numberOfLines={2} variant="body1" color={Color.PRIMARY_YELLOW_COLOR} style={{ lineHeight: 27, width: 250, textAlign: "left", fontSize: 20 }} />
+          </View>
         </View>
-        <Pressable onPress={() => navigation.navigate("Profile")}>
-          <Image source={{
-            uri: "https://i.ibb.co/sy1zLNy/Khanh-Quynh.jpg"
-          }} style={styles.avatar} />
+        <Pressable onPress={() => navigation.navigate("Chat")}>
+          <Ionicons name="ios-chatbubble-ellipses-sharp" size={35} color={Color.PRIMARY_YELLOW_COLOR} />
         </Pressable>
       </View>
       <ScrollView style={{}}>
@@ -83,7 +114,7 @@ const HomePage = ({ navigation }) => {
             </View>
           </Swiper>
         </View>
-        <View style={styles.promotionProductContainer}>
+        {promotionalProducts.length > 0 && <View style={styles.promotionProductContainer}>
           <View style={styles.title}>
             <MyText
               title={"Promotional product"}
@@ -93,18 +124,19 @@ const HomePage = ({ navigation }) => {
           </View>
           <View style={styles.product}>
             <FlatList
-              data={productDummy}
+              data={promotionalProducts}
               renderItem={renderCartProduct}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item._id}
               horizontal
               showsHorizontalScrollIndicator={false}
             />
           </View>
-        </View>
+        </View>}
+
         <View style={styles.productCategory}>
-          <ScrollableTabs />
+          <ScrollableTabs index={indexCategory} setIndex={setIndexCategory} />
           <View style={styles.productCate}>
-            {productDummy.map(item => <ProductCard key={item.id} nameProduct={item.nameProduct} priceProduct={item.priceProduct} />)}
+            {productCategory.map(item => <ProductCard key={item?._id} nameProduct={item?.name} priceProduct={item?.price} uriImage={item?.imageProduct} productId={item?._id} />)}
           </View>
         </View>
       </ScrollView>

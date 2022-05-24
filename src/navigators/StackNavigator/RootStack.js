@@ -16,6 +16,7 @@ import ChangePassword from "src/screens/ChangePassword/ChangePassword";
 import BigDeal from "src/screens/BigDeal/BigDeal";
 import Gift from "src/screens/gift/Gift";
 import Order from "src/screens/order/Order";
+import Chat from "src/screens/chat/Chat";
 
 import HeaderLeft from "src/components/HeaderStackBar/HeaderLeft";
 import HeaderRight from "src/components/HeaderStackBar/HeaderRight";
@@ -27,8 +28,10 @@ const Stack = createNativeStackNavigator();
 
 import { useSelector } from "react-redux";
 
+
 const RootStackNavigator = () => {
-  const isSignIn = useSelector(state => state.auth.isSignIn)
+  const isSignIn = useSelector(state => state.account.isSignIn)
+  
 
   return (
     <Stack.Navigator
@@ -153,6 +156,15 @@ const RootStackNavigator = () => {
           <Stack.Screen
             name="Order Information"
             component={Order}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Chat"
+            component={Chat}
             options={{
               headerTitleAlign: "center",
               headerTitle: (props) => <HeaderTitle {...props} />,

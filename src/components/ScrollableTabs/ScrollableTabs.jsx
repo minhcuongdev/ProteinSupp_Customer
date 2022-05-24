@@ -21,7 +21,7 @@ const ItemButton = ({ title, isActive, id, action }) => {
   )
 }
 
-const ScrollableTabs = () => {
+const ScrollableTabs = ({index, setIndex}) => {
   const categories = [{
     id: 0,
     title: "Protein gain weight",
@@ -36,7 +36,6 @@ const ScrollableTabs = () => {
     isActive: false
   },]
 
-  const [index, setIndex] = useState(0)
   const ref = useRef(null)
 
   useEffect(() => {
