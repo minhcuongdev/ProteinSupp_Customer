@@ -15,14 +15,14 @@ const styles = StyleSheet.create({
   },
   editInfoContainer: {
     marginTop: 10,
-    height: "45%",
-    justifyContent: "space-between"
+    height: 320,
+    justifyContent: "space-around"
   },
   switchContainer: {
     flexDirection :'row',
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 20
+    // marginTop: 40
   },
   button: {
     

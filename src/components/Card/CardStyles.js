@@ -175,6 +175,22 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     flex: 1,
   },
+  followOrderCardContainer: {
+    width: "90%",
+    backgroundColor: Color.WHITE,
+    elevation: 10,
+    borderRadius: 10,
+    marginHorizontal: 20,
+    marginVertical: 10
+  },
+  followOrderProductWrapper: {
+    paddingTop: 20,
+    paddingHorizontal: 20,
+  },
+  followOrderCardTotalMoney: {
+     flexDirection: "row",
+     alignItems:"center"
+  }
 });
 
 export default styles

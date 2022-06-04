@@ -1,21 +1,23 @@
 import { View, Text, Pressable } from 'react-native'
-import React, {useState} from 'react'
+import React from 'react'
 
 import styles from './CounterStyles'
 import { AntDesign } from '@expo/vector-icons';
 import Color from 'src/constants/Color';
+import { useDispatch } from 'react-redux';
+import { setSnackBar } from 'src/redux/slices/snackBarSlice';
 
-const Counter = () => {
-  const [counter, setCounter] = useState(1)
+const Counter = ({counter, actionIncrease, actionDecrease}) => {
+  const dispatch = useDispatch()
 
   const handleIncrementCounter = () => {
-    if(counter === 99) return
-    setCounter(counter + 1)
+    if(counter === 99) return dispatch(setSnackBar({open: true, title: "Số  lượng vượt mức cho phép"}))
+    actionIncrease()
   }
 
   const handleDecrementCounter = () => {
-    if(counter === 1) return
-    setCounter(counter - 1)
+    if(counter === 1) return dispatch(setSnackBar({open: true, title: "Số  lượng nhỏ nhất cho phép"}))
+    actionDecrease()
   }
 
   return (

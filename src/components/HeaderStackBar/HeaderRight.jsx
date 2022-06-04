@@ -6,11 +6,13 @@ import Color from 'src/constants/Color'
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import MyText from '../MyText/MyText';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 const HeaderRight = (props) => {
   const navigation = useNavigation()
-  const { isEditProfile } = props
 
+  const { isEditProfile } = props
+  const numberProductInCart = useSelector(state => state.cart.numberProduct)
   return (
     <View style={styles.headerRight}>
       {isEditProfile ? <Pressable onPress={() => navigation.navigate("Edit Profile")} style={({ pressed }) => [
@@ -34,9 +36,11 @@ const HeaderRight = (props) => {
       ]}>
         <View style={[styles.icon, { position: "relative" }]}>
           <MaterialCommunityIcons name="cart" size={24} color={Color.WHITE} />
-          <View style={styles.badge}>
-            <MyText variant='h2' title={"99+"} color={Color.WHITE} style={styles.textBadge} />
-          </View>
+          {numberProductInCart > 0 &&
+            <View style={styles.badge}>
+              <MyText variant='h1' title={numberProductInCart > 0 ? numberProductInCart : ""} color={Color.WHITE} style={styles.textBadge} />
+            </View>
+          }
         </View>
       </Pressable>}
     </View>

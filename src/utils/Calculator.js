@@ -11,6 +11,7 @@ export const FormatMoney = (currentMoney) => {
   }
 
   stringMoney = stringMoney.slice(1, stringMoney.length);
+  if(stringMoney === '') return '0'
   return stringMoney;
 };
 
@@ -22,7 +23,7 @@ export const FormatBirthday = (day, month, year) => {
     ? (birthday = birthday + "0" + (month + 1))
     : (birthday = birthday + (month + 1));
   birthday = birthday + year;
-
+  
   return birthday;
 };
 

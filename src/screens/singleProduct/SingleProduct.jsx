@@ -1,5 +1,5 @@
 import { View, Image, ScrollView, Pressable } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './SingleProductStyles'
 import productDefaultImage from 'src/assets/images/productDefaultImage.png'
 import MyText from 'src/components/MyText/MyText'
@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { getProductById } from 'src/redux/slices/productSlice'
 import { FormatMoney } from 'src/utils/Calculator'
+import { addProductToCart } from 'src/redux/slices/cartSlice'
 
 const commentDummy = [{
   id: 0,
@@ -43,6 +44,15 @@ const SingleProduct = () => {
   const dispatch = useDispatch()
   const product = useSelector(state => state.product.product)
   const { productId } = useRoute().params
+  const [quality, setQuality] = useState(1)
+
+  const handleIncreaseQuality = () => {
+    setQuality(prev => prev += 1)
+  }
+
+  const handleDecreaseQuality = () => {
+    setQuality(prev => prev -= 1)
+  }
 
   useEffect(() => {
     dispatch(getProductById(productId))
@@ -64,7 +74,7 @@ const SingleProduct = () => {
         <View style={styles.productContainer}>
           <View style={styles.title}>
             <MyText title={product.name} numberOfLines={2} style={styles.textTitle} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
-            <Counter />
+            <Counter counter={quality} actionIncrease={handleIncreaseQuality} actionDecrease={handleDecreaseQuality} />
           </View>
           <MyText
             title={product.description}
@@ -125,7 +135,7 @@ const SingleProduct = () => {
         <View style={styles.spacing}></View>
       </ScrollView>
       <View style={styles.buttonContainer}>
-        <PrimaryButton title={"Add to Cart"} handleOnPress={() => console.log("Add to cart")} />
+        <PrimaryButton title={"Add to Cart"} handleOnPress={() => {dispatch(addProductToCart({...product, checked: false, quality: quality})); setQuality(1)}} />
       </View>
     </View>
   )

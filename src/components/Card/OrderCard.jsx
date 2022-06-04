@@ -5,27 +5,15 @@ import styles from './CardStyles'
 import Color from 'src/constants/Color'
 import PrimaryButton from '../PrimaryButton/PrimaryButton'
 
-import productImage from 'src/assets/images/product.jpg'
+import productDefaultImage from 'src/assets/images/productDefaultImage.png'
 
-const products = [{
-  id: 0,
-  name: "Labrada Muscle Mass",
-  price: "1.750.000",
-  quality: 1,
-  uriImage: ""
-}, {
-  id: 1,
-  name: "Labrada Muscle Mass",
-  price: "1.750.000",
-  quality: 1,
-  uriImage: ""
-}]
 
-const ProductItem = ({ title, price, quality, uriImage }) => {
+export const ProductItem = ({ title, price, quality, uriImage }) => {
   return (
     <View style={styles.productItemOrderCardContainer}>
       <View style={styles.productItemImageContainer}>
-        <Image source={productImage} style={styles.productItemImage} />
+        {uriImage ? <Image source={{uri: uriImage}} style={styles.productItemImage} /> : <Image source={productDefaultImage} style={styles.productItemImage} />}
+        
       </View>
       <View style={styles.productItemOrderTextWrapper}>
         <MyText title={title} variant="h1" style={{ fontSize: 12, alignSelf: "flex-start", lineHeight: 18 }} color={Color.NEUTRAL_02} />

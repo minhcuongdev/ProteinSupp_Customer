@@ -1,5 +1,5 @@
 import { View, FlatList } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 
 import styles from './ProductStyles'
 import MyText from 'src/components/MyText/MyText'
@@ -12,25 +12,25 @@ const productDummy = [
   {
     id: 0,
     nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
+    price: "3.500.000",
     uri: "..."
   },
   {
     id: 1,
     nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
+    price: "3.500.000",
     uri: "..."
   },
   {
     id: 2,
     nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
+    price: "3.500.000",
     uri: "..."
   },
   {
     id: 3,
     nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
+    price: "3.500.000",
     uri: "..."
   },
   {
@@ -71,7 +71,7 @@ const productDummy = [
 ]
 
 const Product = () => {
-
+  const [scrollableTabIndex, setScrollableTabIndex] = useState(0)
   const renderCartProduct = ({ item }) => (
     <ProductCard nameProduct={item.nameProduct} priceProduct={item.priceProduct} />
   );
@@ -83,7 +83,7 @@ const Product = () => {
         <Search />
       </View>
       <View style={styles.scroll}>
-        <ScrollableTabs />
+        <ScrollableTabs index={scrollableTabIndex} setIndex={setScrollableTabIndex} />
       </View>
       <View style={styles.body}>
         <FlatList

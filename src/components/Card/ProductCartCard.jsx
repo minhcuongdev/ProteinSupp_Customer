@@ -4,30 +4,44 @@ import MyText from '../MyText/MyText'
 import Color from 'src/constants/Color'
 
 import styles from './CardStyles'
-import product from 'src/assets/images/product.jpg'
+import productDefaultImage from 'src/assets/images/productDefaultImage.png'
 import Counter from '../Counter/Counter'
 import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { removeProduct, checkedProduct, increaseQualityProduct, decreaseQualityProduct } from 'src/redux/slices/cartSlice'
+import { useDispatch } from 'react-redux'
+import { FormatMoney } from 'src/utils/Calculator'
 
-const ProductCartCard = ({nameProduct, priceProduct, uriImage}) => {
+const ProductCartCard = ({idProduct, nameProduct, priceProduct, uriImage, checked, quality}) => {
+  const dispatch = useDispatch();
 
-  const [checked, setChecked] = useState(false)
+  const handleChecked = () => {
+    dispatch(checkedProduct({idProduct: idProduct}))
+  }
+
+  const handleIncreaseProduct = () => {
+    dispatch(increaseQualityProduct({idProduct: idProduct}))
+  }
+
+  const handleDecreaseProduct = () => {
+    dispatch(decreaseQualityProduct({idProduct: idProduct}))
+  }
 
   return (
     <View style={styles.productCartContainer}>
-      <Pressable onPress={() => setChecked(!checked)} style={styles.checkboxWrapper}>
+      <Pressable onPress={() => handleChecked()} style={styles.checkboxWrapper}>
         <View style={styles.checkbox} >
           {checked && <AntDesign name="checksquare" size={22} color={Color.PRIMARY_YELLOW_COLOR} style={styles.iconCheckedBox} />}
         </View>
       </Pressable>
       <View style={styles.product}>
-        <Image resizeMode='cover' source={product} style={styles.imagePr} />
+        {uriImage ? <Image resizeMode='cover' source={{uri:uriImage}} style={styles.imagePr} /> : <Image resizeMode='cover' source={productDefaultImage} style={styles.imagePr} />}
         <View style={styles.textWrapper}>
           <MyText title={nameProduct} numberOfLines={2} variant='h1' color={Color.PRIMARY_YELLOW_COLOR} style={styles.textNamePr} />
-          <MyText title={`${priceProduct} đ`} variant='h1' Color={Color.BLACK} style={styles.textPricePr} />
+          <MyText title={`${FormatMoney(priceProduct)} đ`} variant='h1' Color={Color.BLACK} style={styles.textPricePr} />
         </View>
       </View>
       <View style={styles.counterContainer}>
-        <Pressable  style={({ pressed }) => [
+        <Pressable onPress={() => dispatch(removeProduct({idProduct: idProduct}))} style={({ pressed }) => [
           {
             backgroundColor: pressed
               ? Color.WHITE_ACTIVE
@@ -37,7 +51,7 @@ const ProductCartCard = ({nameProduct, priceProduct, uriImage}) => {
         ]}>
           <Ionicons name="md-trash-bin" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
         </Pressable>
-        <Counter />
+        <Counter counter={quality} actionIncrease={handleIncreaseProduct} actionDecrease={handleDecreaseProduct} />
       </View>
     </View>
   )

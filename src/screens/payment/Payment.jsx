@@ -1,4 +1,4 @@
-import { View, Image, Text } from 'react-native'
+import { View, Image } from 'react-native'
 import React, { useState } from 'react'
 import MyText from 'src/components/MyText/MyText'
 import styles from './PaymentStyles'
@@ -14,12 +14,17 @@ import DiscountButton from 'src/components/DiscountButton/DiscountButton';
 import PrimaryButton from 'src/components/PrimaryButton/PrimaryButton';
 import MyDialog from 'src/components/MyDialog/MyDialog';
 
+import { useSelector } from 'react-redux';
+import { FormatMoney } from 'src/utils/Calculator';
+
 const Payment = () => {
   const navigation = useNavigation()
   const [isVisibleDialog, setIsVisibleDialog] = useState(false);
   const toggleDialog = () => {
     setIsVisibleDialog(!isVisibleDialog);
   };
+
+  const totalMoney = useSelector(state => state.cart.totalMoney)
   
   return (
     <View style={styles.container}>
@@ -41,7 +46,7 @@ const Payment = () => {
       <View style={styles.billWrapper}>
         <View style={styles.billItem}>
           <MyText title={"Sub Total"} variant="h3" color={Color.NEUTRAL_03} />
-          <MyText title={"5.250.000 đ"} variant="h2" color={Color.PRIMARY_YELLOW_COLOR} />
+          <MyText title={`${FormatMoney(totalMoney)} đ`} variant="h2" color={Color.PRIMARY_YELLOW_COLOR} />
         </View>
         <View style={styles.billItem}>
           <MyText title={"Shipping"} variant="h3" color={Color.NEUTRAL_03} />
@@ -49,11 +54,11 @@ const Payment = () => {
         </View>
         <View style={styles.billItem}>
           <MyText title={"Discount"} variant="h3" color={Color.NEUTRAL_03} />
-          <MyText title={"-15.000 đ"} variant="h2" color={Color.PRIMARY_YELLOW_COLOR} />
+          <MyText title={"0 đ"} variant="h2" color={Color.PRIMARY_YELLOW_COLOR} />
         </View>
         <View style={styles.billItem}>
           <MyText title={"Total"} variant="h3" color={Color.NEUTRAL_03} />
-          <MyText title={"5.260.000 đ"} variant="h1" color={Color.PRIMARY_RED_COLOR} style={{ fontSize: 16 }} />
+          <MyText title={`${FormatMoney(totalMoney+25000)} đ`} variant="h1" color={Color.PRIMARY_RED_COLOR} style={{ fontSize: 16 }} />
         </View>
       </View>
       <PrimaryButton title={"Pay now"} handleOnPress={() => toggleDialog()} />

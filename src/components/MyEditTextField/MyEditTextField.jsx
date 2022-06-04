@@ -7,13 +7,13 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { TextInputMask } from 'react-native-masked-text'
 import { FormatBirthday } from 'src/utils/Calculator';
 import { FontAwesome } from '@expo/vector-icons';
-import { color } from '@rneui/base'
 
-const MyEditTextField = ({ title, value, setValue, multiline = false, keyboardType="default" }) => {
+
+const MyEditTextField = ({ title, value, setValue, multiline = false, keyboardType="default", numberOfLines = 1 }) => {
   return (
     <View style={styles.container}>
       <MyText title={title} color={Color.NEUTRAL_02} style={styles.title} />
-      <TextInput multiline={multiline} value={value} style={styles.textInput} selectionColor={Color.BLACK} onChangeText={setValue} keyboardType={keyboardType} />
+      <TextInput multiline={multiline} numberOfLines={numberOfLines} value={value} style={styles.textInput} selectionColor={Color.BLACK} onChangeText={setValue} keyboardType={keyboardType} />
     </View>
   )
 }

@@ -22,6 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { login } from 'src/redux/slices/accountSlice';
 
+import { setSnackBar } from 'src/redux/slices/snackBarSlice';
 
 import authApi from 'src/apis/authApi';
 
@@ -41,7 +42,10 @@ const Login = () => {
       saveRefreshTokenToDevice(accountUser.refreshToken)
       dispatch(login(accountUser))
     } catch (error) {
-      console.log(error)
+      dispatch(setSnackBar({
+        open: true,
+        title: error.message
+      }))
     }
   }
 

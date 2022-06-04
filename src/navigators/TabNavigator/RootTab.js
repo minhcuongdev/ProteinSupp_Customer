@@ -5,7 +5,7 @@ import {
   TouchableNativeFeedback,
 } from "react-native";
 import HomePage from "src/screens/homepage/HomePage";
-import Cart from "src/screens/cart/Cart";
+import FollowOrder from "src/screens/FollowOrder/FollowOrder";
 import Product from "src/screens/product/Product";
 import Setting from "src/screens/setting/Setting";
 import Notification from "src/screens/notification/Notification";
@@ -62,11 +62,11 @@ const RootTab = () => (
       }}
     />
     <Tab.Screen
-      name="My Cart"
-      component={Cart}
+      name="Follow Order"
+      component={FollowOrder}
       options={{
         tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="cart" size={27} color={color} />
+          <Ionicons name="receipt" size={size} color={color} />
         ),
       }}
     />

@@ -6,7 +6,7 @@ import MyText from 'src/components/MyText/MyText'
 import Color from 'src/constants/Color'
 import { FontAwesome5, Fontisto, FontAwesome, AntDesign, Ionicons  } from '@expo/vector-icons';
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { logout } from 'src/redux/slices/accountSlice'
 import { useNavigation } from '@react-navigation/native'
 import authApi from 'src/apis/authApi'

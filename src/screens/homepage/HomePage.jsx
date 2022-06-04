@@ -16,6 +16,7 @@ import banner2 from 'src/assets/images/banner2.jpg'
 import banner3 from 'src/assets/images/banner3.jpg'
 import defaultImage from 'src/assets/images/default-user-image.png'
 
+import { setSnackBar } from 'src/redux/slices/snackBarSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import { setProducts, setPromotionalProducts } from 'src/redux/slices/productSlice'
 import productApi from 'src/apis/productApi'
@@ -40,7 +41,10 @@ const HomePage = ({ navigation }) => {
       setProductCategory(proteinGainWeight)
 
     } catch (error) {
-      console.log(error)
+      dispatch(setSnackBar({
+        open: true,
+        title: error.message
+      }))
     }
   }
 

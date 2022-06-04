@@ -1,4 +1,4 @@
-import { View, TouchableWithoutFeedback, Keyboard, Switch } from 'react-native'
+import { View, TouchableWithoutFeedback, Keyboard, Switch, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useState } from 'react'
 
 import styles from './NewAddressStyles'
@@ -20,38 +20,40 @@ const NewAddress = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-  const [isOpenDialog,setIsOpenDialog] = useState(false)
-  const toggleDialog = () => { setIsOpenDialog(pre => !pre)}
+  const [isOpenDialog, setIsOpenDialog] = useState(false)
+  const toggleDialog = () => { setIsOpenDialog(pre => !pre) }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <View style={{flex: 1}}>
-          <MyText title={"Contact"} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} style={styles.textTitleContact} />
-          <View style={styles.editInfoContainer}>
-            <MyEditTextField title={"Full name"} value={fullName} setValue={setFullName} />
-            <MyEditTextField title={"Mobile number"} value={numberPhone} setValue={setNumberPhone} />
-            <MyEditTextField multiline={true} title={"Address"} value={address} setValue={setAddress} />
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{flex: 1}}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <View >
+            <MyText title={"Contact"} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} style={styles.textTitleContact} />
+            <View style={styles.editInfoContainer}>
+              <MyEditTextField title={"Full name"} value={fullName} setValue={setFullName} />
+              <MyEditTextField title={"Mobile number"} value={numberPhone} setValue={setNumberPhone} />
+              <MyEditTextField multiline={true} numberOfLines={2} title={"Address"} value={address} setValue={setAddress} />
+            </View>
+            <View style={styles.switchContainer}>
+              <MyText title={"Set this address as default "} color={Color.NEUTRAL_02} />
+              <Switch
+                trackColor={{ false: Color.NEUTRAL_03, true: Color.PRIMARY_YELLOW_COLOR }}
+                thumbColor={Color.PRIMARY_YELLOW_COLOR}
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </View>
           </View>
-          <View style={styles.switchContainer}>
-            <MyText title={"Set this address as default "} color={Color.NEUTRAL_02} />
-            <Switch
-              trackColor={{ false: Color.NEUTRAL_03, true: Color.PRIMARY_YELLOW_COLOR }}
-              thumbColor={Color.PRIMARY_YELLOW_COLOR}
-              onValueChange={toggleSwitch}
-              value={isEnabled}
-            />
+          <View style={styles.button}>
+            <PrimaryButton title={"Add"} handleOnPress={() => toggleDialog()} />
           </View>
+          <MyDialog content={"You has been added your new address successfully!"} titleButton={"Got it"} isVisibleDialog={isOpenDialog} handleOnPress={() => {
+            toggleDialog()
+            navigation.goBack()
+          }} />
         </View>
-        <View style={styles.button}>
-          <PrimaryButton title={"Add"} handleOnPress={() => toggleDialog()} />
-        </View>
-        <MyDialog content={"You has been added your new address successfully!"} titleButton={"Got it"} isVisibleDialog={isOpenDialog} handleOnPress={() => {
-          toggleDialog()
-          navigation.goBack()
-        }} />
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   )
 }
 

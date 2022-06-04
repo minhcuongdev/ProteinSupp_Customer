@@ -9,56 +9,35 @@ import Color from 'src/constants/Color'
 import PrimaryButton from 'src/components/PrimaryButton/PrimaryButton'
 
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import { FormatMoney } from 'src/utils/Calculator'
 
-const productDummy = [{
-  id: 0,
-  name: "Labrada Muscle Mass",
-  price: "1.750.000",
-  uriImage: "..."
-},{
-  id: 1,
-  name: "Labrada Muscle Mass",
-  price: "1.750.000",
-  uriImage: "..."
-},{
-  id: 2,
-  name: "Labrada Muscle Mass",
-  price: "1.750.000",
-  uriImage: "..."
-},{
-  id: 3,
-  name: "Labrada Muscle Mass",
-  price: "1.750.000",
-  uriImage: "..."
-},{
-  id: 4,
-  name: "Labrada Muscle Mass",
-  price: "1.750.000",
-  uriImage: "..."
-},{
-  id: 5,
-  name: "Labrada Muscle Mass",
-  price: "1.750.000",
-  uriImage: "..."
-}]
 
 const Cart = () => {
   const navigation = useNavigation()
+  const productsInCart = useSelector(state => state.cart.productInCart)
+  const totalPrice = useSelector(state => state.cart.totalMoney)
 
   return (
     <View style={styles.container}>
       <View style={styles.productCartContainer}>
-        <FlatList 
-          data={productDummy}
-          renderItem={({item}) => (<ProductCartCard nameProduct={item.name} priceProduct={item.price} />)}
-          keyExtractor={(item) => item.id}
+        <FlatList
+          data={productsInCart}
+          renderItem={({ item }) => (<ProductCartCard nameProduct={item.name}
+            priceProduct={item.price}
+            idProduct={item._id}
+            uriImage={item.imageProduct} 
+            checked={item.checked}
+            quality={item.quality}
+          />)}
+          keyExtractor={(item) => item._id}
           showsVerticalScrollIndicator={false}
         />
       </View>
-      <DiscountButton title={"Enter your code discount"} onPressButton={() => console.log("discount")}/>
+      <DiscountButton title={"Enter your code discount"} onPressButton={() => console.log("discount")} />
       <View style={styles.totalPriceWrapper}>
         <MyText title={"TOTAL"} variant="h1" color={Color.GRAY_03} />
-        <MyText title={"5.250.000 đ"} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
+        <MyText title={`${FormatMoney(totalPrice)} đ`} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
       </View>
       <View style={styles.button}>
         <PrimaryButton handleOnPress={() => navigation.navigate("Payment")} title={"Checkout"} />

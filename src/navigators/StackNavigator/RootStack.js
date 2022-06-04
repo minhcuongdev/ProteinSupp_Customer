@@ -17,6 +17,7 @@ import BigDeal from "src/screens/BigDeal/BigDeal";
 import Gift from "src/screens/gift/Gift";
 import Order from "src/screens/order/Order";
 import Chat from "src/screens/chat/Chat";
+import OrderDetail from "src/screens/OrderDetail/OrderDetail";
 
 import HeaderLeft from "src/components/HeaderStackBar/HeaderLeft";
 import HeaderRight from "src/components/HeaderStackBar/HeaderRight";
@@ -165,6 +166,15 @@ const RootStackNavigator = () => {
           <Stack.Screen
             name="Chat"
             component={Chat}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+           <Stack.Screen
+            name="Order Detail"
+            component={OrderDetail}
             options={{
               headerTitleAlign: "center",
               headerTitle: (props) => <HeaderTitle {...props} />,

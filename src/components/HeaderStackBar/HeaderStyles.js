@@ -26,13 +26,13 @@ const styles = StyleSheet.create({
   badge: {
     backgroundColor: Color.PRIMARY_RED_COLOR,
     position: "absolute",
-    width: 20,
+    width: 15,
     height: 15,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 15,
     top: 0,
-    right: -5
+    right: 0
   },
   textBadge: {
     fontSize: 5,
