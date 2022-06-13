@@ -1,40 +1,29 @@
 import { View, FlatList } from 'react-native'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 import styles from './AddressStyles'
 import AddressCard from 'src/components/Card/AddressCard'
 import PrimaryButton from 'src/components/PrimaryButton/PrimaryButton'
+import addressApi from 'src/apis/addressApi'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { useNavigation } from '@react-navigation/native'
-
-const addressDummy = [{
-  id: 0,
-  nameUser: "Quynh Ton",
-  numberPhone: "(+84) 905674xxx",
-  address: "KTX khu B, ĐHQG-HCM, khu pho 6, Linh Trung, Thu Duc, Ho Chi Minh"
-},{
-  id: 1,
-  nameUser: "Quynh Ton",
-  numberPhone: "(+84) 905674xxx",
-  address: "KTX khu B, ĐHQG-HCM, khu pho 6, Linh Trung, Thu Duc, Ho Chi Minh"
-},{
-  id: 2,
-  nameUser: "Quynh Ton",
-  numberPhone: "(+84) 905674xxx",
-  address: "KTX khu B, ĐHQG-HCM, khu pho 6, Linh Trung, Thu Duc, Ho Chi Minh"
-}]
+import { setSnackBar } from 'src/redux/slices/snackBarSlice'
+import { setAddresses } from 'src/redux/slices/addressSlice'
 
 const Address = () => {
   const navigation = useNavigation()
+  const addresses = useSelector(state => state.address.addresses)
 
   return (
     <View style={styles.container}>
-      <FlatList 
-        data={addressDummy}
-        renderItem={({item}) => <AddressCard nameUser={item.nameUser} numberPhone={item.numberPhone} address={item.address} />}
-        keyExtractor={(item) => item.id}
+      {addresses.length > 0 && <FlatList 
+        data={addresses}
+        renderItem={({item}) => <AddressCard nameUser={item.nameReceivedUser} numberPhone={item.numberPhone} address={item.address} addressId={item._id} addressDefault={item.addressDefault} />}
+        keyExtractor={(item) => item._id}
         style={styles.addressItems}
-      />
+      />}
+      
       <View style={styles.buttonContainer}>
         <PrimaryButton title={"Add new +"} handleOnPress={() => navigation.navigate("New Address")} />
       </View>

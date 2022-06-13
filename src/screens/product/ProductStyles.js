@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: StatusBar.currentHeight,
     backgroundColor: Color.WHITE,
-    // paddingHorizontal: 25,
     alignItems: "center",
   },
   title: {
@@ -22,8 +21,13 @@ const styles = StyleSheet.create({
     marginBottom: 25
   },
   body: {
+    flex: 1,
     flexWrap: "wrap",
   },
+  drawer: {
+    paddingTop: StatusBar.currentHeight,
+    paddingHorizontal: 20
+  }
 });
 
 export default styles;

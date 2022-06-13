@@ -14,6 +14,8 @@ import userApi from 'src/apis/userApi';
 import { setAccount } from 'src/redux/slices/accountSlice';
 import { saveAccountToDevice } from 'src/utils/AsyncStorageLocal';
 import { MyEditTextFieldBirthday } from 'src/components/MyEditTextField/MyEditTextField';
+import { setSnackBar } from 'src/redux/slices/snackBarSlice';
+import * as ImagePicker from 'expo-image-picker';
 
 const EditProfile = () => {
   const navigation = useNavigation()
@@ -28,6 +30,7 @@ const EditProfile = () => {
   const [address, setAddress] = useState(user.address)
   const [gender,setGender] = useState(user.gender)
   const [isOpenDialog,setIsOpenDialog] = useState(false)
+  const [images, setImages] = useState(user.profilePicture)
 
   const handleSave = async () => {
     try {
@@ -36,14 +39,18 @@ const EditProfile = () => {
         birthday: birthday,
         phoneNo: phoneNumber,
         gender: gender,
-        address: address
+        address: address,
+        profilePicture: images
       }
       const newInfo = await userApi.updateInfoUser(user._id,payloadUpdateInfoUser)
       dispatch(setAccount(newInfo))
       saveAccountToDevice(newInfo)
       toggleDialog()
     } catch (error) {
-      console.log(error)
+      dispatch(setSnackBar({
+        open: true,
+        title: error.response.data
+      }))
     }
 
   }
@@ -52,14 +59,28 @@ const EditProfile = () => {
     setIsOpenDialog(pre => !pre)
   }
 
+  const openCamera = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4,3],
+      quality: 1
+    })
+
+    if(!result.cancelled) {
+      setImages(result.uri)
+    }
+      
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
         <View style={styles.avatarContainer}>
           <View>
-            {user.profilePicture ? <Image
+            {images ? <Image
               source={{
-                uri: user.profilePicture
+                uri: images
               }}
               style={styles.image}
             />: <Image
@@ -67,7 +88,7 @@ const EditProfile = () => {
             style={styles.image}
           />}
             
-            <Pressable onPress={() => console.log("open camera")} style={({ pressed }) => [
+            <Pressable onPress={() => openCamera()} style={({ pressed }) => [
               {
                 backgroundColor: pressed
                   ? Color.WHITE_ACTIVE

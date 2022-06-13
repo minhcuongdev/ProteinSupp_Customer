@@ -6,7 +6,8 @@ import {
   Keyboard,
   Pressable
 } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { HelperText } from 'react-native-paper';
 
 import styles from './LoginStyles'
 import SocialButton from 'src/components/SocialButton/SocialButton'
@@ -16,7 +17,7 @@ import MyTextField from 'src/components/MyTextField/MyTextField';
 import TwoCircleHeader from 'src/components/TwoCircleHeader/TwoCircleHeader';
 import MyText from 'src/components/MyText/MyText';
 import Color from 'src/constants/Color';
-import { saveAccountToDevice, saveAccessTokenToDevice, saveRefreshTokenToDevice} from 'src/utils/AsyncStorageLocal';
+import { saveAccountToDevice, saveAccessTokenToDevice, saveRefreshTokenToDevice } from 'src/utils/AsyncStorageLocal';
 
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
@@ -44,21 +45,23 @@ const Login = () => {
     } catch (error) {
       dispatch(setSnackBar({
         open: true,
-        title: error.message
+        title: error.response.data
       }))
     }
   }
 
   const handleSignIn = () => {
     const account = {
-      email: email,
+      email: email.trim(),
       password: password,
     }
 
     callApi(account)
   }
 
-  
+  const hasErrors = () => {
+    return !email.includes('@') && email !== "";
+  };
 
 
   return (
@@ -75,6 +78,9 @@ const Login = () => {
             </View>
             <View style={styles.textFieldWrapper}>
               <MyTextField value={email} placeholder={"Enter your email"} onChangeText={setEmail} />
+              <HelperText type="error" visible={hasErrors()}>
+                Email is invalid!
+              </HelperText>
             </View>
             <MyTextField value={password} placeholder={"Enter your password"} onChangeText={setPassword} secureTextEntry={true} />
             <Pressable onPress={() => navigation.navigate("ForgotPassword")} style={({ pressed }) => [

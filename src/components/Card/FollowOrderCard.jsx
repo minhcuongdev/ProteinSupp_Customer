@@ -9,17 +9,17 @@ import styles from './CardStyles'
 import { ProductItem } from './OrderCard'
 import { useNavigation } from '@react-navigation/native'
 
-const FollowOrderCard = ({ productsOrder, totalMoney, orderTime, status }) => {
+const FollowOrderCard = ({ productsOrders, totalMoney, orderTime, status,billId }) => {
   const navigation = useNavigation()
 
   return (
     <View style={styles.followOrderCardContainer}>
       <View style={styles.followOrderProductWrapper}>
-        {productsOrder.map(productOrder => <ProductItem key={productOrder.id}
-          title={productOrder.name}
-          price={productOrder.price}
+        {productsOrders.map((productOrder, index) => <ProductItem key={index}
+          title={productOrder.nameProduct}
+          price={productOrder.priceProduct}
           quality={productOrder.quality}
-          uriImage={productOrder.uriImage}
+          uriImage={productOrder.imageProduct}
         />)}
       </View>
       <Divider />
@@ -34,7 +34,7 @@ const FollowOrderCard = ({ productsOrder, totalMoney, orderTime, status }) => {
         </View>
       </View>
       <Divider />
-      <Pressable onPress={() => navigation.navigate("Order Detail")} style={({pressed}) => [{
+      <Pressable onPress={() => navigation.navigate("Order Detail",{billId: billId})} style={({pressed}) => [{
         backgroundColor: pressed
         ? Color.WHITE_ACTIVE
         : Color.WHITE
@@ -47,8 +47,6 @@ const FollowOrderCard = ({ productsOrder, totalMoney, orderTime, status }) => {
           <Entypo name="chevron-right" size={24} color="black" />
         </View>
       </Pressable>
-
-
     </View>
   )
 }

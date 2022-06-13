@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Color.WHITE,
+    justifyContent: "flex-end"
   },
   addressItems: {
     flex: 1,
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingHorizontal: 25,
-    paddingVertical: 15,
+    paddingVertical: 10,
     marginTop: 10
   },
   spacing: {

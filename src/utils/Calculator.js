@@ -28,6 +28,10 @@ export const FormatBirthday = (day, month, year) => {
 };
 
 export const FormatStringToBirthday = (string) => {
+  if(string === undefined) return ""
+  if(string === "") {
+    return ""
+  }
   const day = string.slice(0,2)
   const month = string.slice(2,4)
   const year = string.slice(4,8)

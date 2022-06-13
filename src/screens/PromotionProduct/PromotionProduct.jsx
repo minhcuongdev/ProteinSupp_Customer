@@ -7,68 +7,6 @@ import Color from 'src/constants/Color'
 import ProductCard from 'src/components/Card/ProductCard'
 import { useSelector } from 'react-redux'
 
-const productDummy = [
-  {
-    id: 0,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 1,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 2,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 3,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 4,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },{
-    id: 5,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 6,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 7,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 8,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-  {
-    id: 9,
-    nameProduct: "Labrada Leanbody For Her",
-    priceProduct: "3.500.000",
-    uri: "..."
-  },
-]
-
 const PromotionProduct = () => {
   const promotionalProducts = useSelector(state=>state.product.promotionalProducts)
 

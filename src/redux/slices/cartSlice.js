@@ -70,6 +70,11 @@ export const cartSlice = createSlice({
         } 
       });
     },
+    clearCart: (state) => {
+      state.productInCart = []
+      state.numberProduct = 0
+      state.totalMoney= 0
+    }
   },
 });
 
@@ -80,6 +85,7 @@ export const {
   removeProduct,
   increaseQualityProduct,
   decreaseQualityProduct,
+  clearCart
 } = cartSlice.actions;
 
 const cartReducer = cartSlice.reducer;

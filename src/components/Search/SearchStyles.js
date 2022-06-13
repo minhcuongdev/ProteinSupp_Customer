@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     height: 30,
-    lineHeight: 30,
     marginHorizontal: 10
   }
 })

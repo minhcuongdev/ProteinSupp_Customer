@@ -5,9 +5,9 @@ import Color from 'src/constants/Color'
 import styles from './PrimaryButtonStyles'
 import MyText from '../MyText/MyText'
 
-const PrimaryButton = ({title,handleOnPress,style, height = 55}) => {
+const PrimaryButton = ({title,handleOnPress,style, height = 55, disable = false}) => {
   return (
-    <TouchableHighlight onPress={() => handleOnPress()} activeOpacity={0.8} underlayColor={Color.OVERPLAY_COLOR} style={[styles.container,style, {height: height}]}>
+    <TouchableHighlight onPress={() => disable ? {} : handleOnPress()} disabled={disable} activeOpacity={0.8} underlayColor={Color.OVERPLAY_COLOR} style={[styles.container,style, {height: height, opacity: disable ? 0.5 : 1 }]}>
       <View style={[styles.container, {height: height}]}>
         <MyText title={title} variant="h2" color={Color.WHITE} />
       </View>

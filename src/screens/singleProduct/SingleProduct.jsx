@@ -16,28 +16,8 @@ import { useDispatch } from 'react-redux'
 import { getProductById } from 'src/redux/slices/productSlice'
 import { FormatMoney } from 'src/utils/Calculator'
 import { addProductToCart } from 'src/redux/slices/cartSlice'
-
-const commentDummy = [{
-  id: 0,
-  nameUser: "Quynh Ton",
-  uriAvatar: "https://i.ibb.co/sy1zLNy/Khanh-Quynh.jpg",
-  comment: "The quality that goes into this product is what landed it as our number protein pick. Using pure whey isolate also makes this protein far easier on your stomach to digest, no more bloating or gas.",
-}, {
-  id: 1,
-  nameUser: "Quynh Ton",
-  uriAvatar: "https://i.ibb.co/sy1zLNy/Khanh-Quynh.jpg",
-  comment: "The quality that goes into this product is what landed it as our number protein pick. Using pure whey isolate also makes this protein far easier on your stomach to digest, no more bloating or gas.",
-}, {
-  id: 2,
-  nameUser: "Quynh Ton",
-  uriAvatar: "https://i.ibb.co/sy1zLNy/Khanh-Quynh.jpg",
-  comment: "The quality that goes into this product is what landed it as our number protein pick. Using pure whey isolate also makes this protein far easier on your stomach to digest, no more bloating or gas.",
-}, {
-  id: 3,
-  nameUser: "Quynh Ton",
-  uriAvatar: "https://i.ibb.co/sy1zLNy/Khanh-Quynh.jpg",
-  comment: "The quality that goes into this product is what landed it as our number protein pick. Using pure whey isolate also makes this protein far easier on your stomach to digest, no more bloating or gas.",
-}]
+import commentApi from 'src/apis/commentApi'
+import { setSnackBar } from 'src/redux/slices/snackBarSlice'
 
 const SingleProduct = () => {
   const navigation = useNavigation()
@@ -45,6 +25,19 @@ const SingleProduct = () => {
   const product = useSelector(state => state.product.product)
   const { productId } = useRoute().params
   const [quality, setQuality] = useState(1)
+  const [comments, setComments] = useState([])
+
+  const callApi = async (productId) => {
+    try {
+      const comments = await commentApi.getComment(productId)
+      setComments(comments)
+    } catch (error) {
+      dispatch(setSnackBar({
+        open: true,
+        title: error.response.data
+      }))
+    }
+  }
 
   const handleIncreaseQuality = () => {
     setQuality(prev => prev += 1)
@@ -56,13 +49,14 @@ const SingleProduct = () => {
 
   useEffect(() => {
     dispatch(getProductById(productId))
-  }, [])
+    callApi(productId)
+  }, [productId])
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        {product?.imageProduct  ?
-          <Image source={{uri: product.imageProduct}} resizeMode="contain" style={styles.image} /> :
+        {product?.imageProduct ?
+          <Image source={{ uri: product.imageProduct }} resizeMode="contain" style={styles.image} /> :
           <Image source={productDefaultImage} resizeMode="contain" style={styles.image} />}
         <View style={styles.priceAndRateProduct}>
           <View style={styles.rateStar}>
@@ -81,7 +75,7 @@ const SingleProduct = () => {
             variant="h4"
             color={Color.NEUTRAL_01}
             style={styles.text}
-            numberOfLines={3}
+            numberOfLines={10}
           />
           <View style={styles.description}>
             <MyText title={"Description"} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} style={{ textAlign: "left" }} />
@@ -102,40 +96,44 @@ const SingleProduct = () => {
               <MyText title={`${product.manufacturerPrice} đ`} color={Color.NEUTRAL_01} variant="h4" style={styles.text} />
             </View>
           </View>
-          <View style={styles.feedback}>
-            <View style={{ height: 70 }}>
-              <MyText title={"Feedback"} style={{ textAlign: "left" }} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
-              <View style={styles.starWrapper}>
-                <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
-                <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
-                <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
-                <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
-                <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
-                <MyText title={"5/5"} variant="h2" style={{ marginLeft: 10 }} color={Color.PRIMARY_RED_COLOR} />
+          {comments.length > 0 && <View>
+            <View style={styles.feedback}>
+              <View style={{ height: 70 }}>
+                <MyText title={"Feedback"} style={{ textAlign: "left" }} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
+                <View style={styles.starWrapper}>
+                  <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
+                  <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
+                  <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
+                  <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
+                  <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
+                  <MyText title={"5/5"} variant="h2" style={{ marginLeft: 10 }} color={Color.PRIMARY_RED_COLOR} />
+                </View>
               </View>
+              <SmallButton label={"See all"} onTap={() => navigation.navigate("Feedback", {productId: productId})} />
             </View>
-            <SmallButton label={"See all"} />
-          </View>
-          {commentDummy.map((item) => <CommentProduct key={item.id} nameUser={item.nameUser} uriAvatar={item.uriAvatar} comment={item.comment} />)}
+            {comments.map((item) => <CommentProduct key={item._id} nameUser={item.username} uriAvatar={item.profilePicture} comment={item.comment} point = {item.point} />)}
+            <View style={styles.buttonSeeAllContainer}>
+              <Pressable
+                onPress={() => navigation.navigate("Feedback", {productId: productId})}
+                style={({ pressed }) => [{
+                  backgroundColor: pressed
+                    ? Color.WHITE_ACTIVE
+                    : Color.WHITE
+                },
+                styles.buttonSeeAll
+                ]}>
+                <MyText title={"See all"} variant="h1" style={styles.textSeeAll} color={Color.PRIMARY_RED_COLOR} />
+                <Entypo name="chevron-right" size={20} color={Color.PRIMARY_RED_COLOR} />
+              </Pressable>
+            </View>
+          </View>}
+
         </View>
-        <View style={styles.buttonSeeAllContainer}>
-          <Pressable
-            onPress={() => navigation.navigate("Feedback")}
-            style={({ pressed }) => [{
-              backgroundColor: pressed
-                ? Color.WHITE_ACTIVE
-                : Color.WHITE
-            },
-            styles.buttonSeeAll
-            ]}>
-            <MyText title={"See all"} variant="h1" style={styles.textSeeAll} color={Color.PRIMARY_RED_COLOR} />
-            <Entypo name="chevron-right" size={20} color={Color.PRIMARY_RED_COLOR} />
-          </Pressable>
-        </View>
+
         <View style={styles.spacing}></View>
       </ScrollView>
       <View style={styles.buttonContainer}>
-        <PrimaryButton title={"Add to Cart"} handleOnPress={() => {dispatch(addProductToCart({...product, checked: false, quality: quality})); setQuality(1)}} />
+        <PrimaryButton title={"Add to Cart"} handleOnPress={() => { dispatch(addProductToCart({ ...product, checked: false, quality: quality })); setQuality(1) }} />
       </View>
     </View>
   )

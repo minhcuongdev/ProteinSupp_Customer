@@ -7,6 +7,14 @@ import MyText from '../MyText/MyText';
 import Color from 'src/constants/Color';
 import PrimaryButton from '../PrimaryButton/PrimaryButton';
 
+export const MyDialogLoading = ({isVisible}) => {
+  return(
+    <Dialog isVisible={isVisible} >
+      <Dialog.Loading />
+    </Dialog>
+  )
+}
+
 const MyDialog = ({content, titleButton,isVisibleDialog, handleOnPress}) => {
   
   return (

@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
   },
   textFieldWrapper: {
     width: "100%",
-    marginBottom: 40
   },
   textForgotPassword: {
     marginTop: 20,

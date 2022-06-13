@@ -1,111 +1,50 @@
 import { View, FlatList } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import styles from './FollowOrderStyles'
-
+import { useDispatch, useSelector } from 'react-redux'
 import FollowOrderCard from 'src/components/Card/FollowOrderCard'
-
-
-const followOrderDummy = [{
-  id: 0,
-  orderTime: "4:01 12/04/2022",
-  status: "Delivered",
-  products: [{
-    id: 0,
-    name: "Labrada Muscle Mass",
-    price: "1.750.000",
-    quality: 1,
-    uriImage: ""
-  }, {
-    id: 1,
-    name: "Labrada Muscle Mass",
-    price: "1.750.000",
-    quality: 1,
-    uriImage: ""
-  }],
-  total: 3500000
-}, {
-  id: 1,
-  orderTime: "4:01 12/04/2022",
-  status: "Delivered",
-  products: [{
-    id: 0,
-    name: "Labrada Muscle Mass",
-    price: "1.750.000",
-    quality: 1,
-    uriImage: ""
-  }, {
-    id: 1,
-    name: "Labrada Muscle Mass",
-    price: "1.750.000",
-    quality: 1,
-    uriImage: ""
-  }],
-  total: 3500000
-}, {
-  id: 2,
-  orderTime: "4:01 12/04/2022",
-  status: "Delivered",
-  products: [{
-    id: 0,
-    name: "Labrada Muscle Mass",
-    price: "1.750.000",
-    quality: 1,
-    uriImage: ""
-  }, {
-    id: 1,
-    name: "Labrada Muscle Mass",
-    price: "1.750.000",
-    quality: 1,
-    uriImage: ""
-  }],
-  total: 3500000
-}, {
-  id: 3,
-  orderTime: "4:01 12/04/2022",
-  status: "Delivered",
-  products: [{
-    id: 0,
-    name: "Labrada Muscle Mass",
-    price: "1.750.000",
-    quality: 1,
-    uriImage: ""
-  }, {
-    id: 1,
-    name: "Labrada Muscle Mass",
-    price: "1.750.000",
-    quality: 1,
-    uriImage: ""
-  }, {
-    id: 2,
-    name: "Labrada Muscle Mass",
-    price: "1.750.000",
-    quality: 1,
-    uriImage: ""
-  }, {
-    id: 3,
-    name: "Labrada Muscle Mass",
-    price: "1.750.000",
-    quality: 1,
-    uriImage: ""
-  }],
-  total: 3500000
-}]
-
+import billApi from 'src/apis/billApi'
+import { setSnackBar } from 'src/redux/slices/snackBarSlice'
+import { FormatStringToBirthday } from 'src/utils/Calculator'
+import { setBills } from 'src/redux/slices/billSlice'
 
 const FollowOrder = () => {
+  const dispatch = useDispatch();
+  const bills = useSelector(state => state.bill.bills)
+  const [refreshing,setRefreshing] = useState(false)
+
+  const callApi = async () => {
+    try {
+      const bills = await billApi.getAllBill()
+      dispatch(setBills(bills))
+    } catch (error) {
+      dispatch(setSnackBar({
+        open: true,
+        title: error.response.data
+      }))
+    }
+  }
+
+  useEffect(() => {
+    callApi()
+  }, [])
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={followOrderDummy}
+        data={bills}
         renderItem={({ item }) => <FollowOrderCard
-          productsOrder={item.products}
-          totalMoney={item.total}
-          orderTime={item.orderTime}
-          status={"Delivered order"}
+          productsOrders={item.products}
+          totalMoney={item.totalPrice}
+          orderTime={FormatStringToBirthday(item.dateOrder)}
+          status={item.status}
+          billId = {item._id}
         />}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
+        refreshing={refreshing}
+        onRefresh={() => callApi()}
       />
     </View>
   )

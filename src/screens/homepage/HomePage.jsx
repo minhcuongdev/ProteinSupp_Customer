@@ -1,4 +1,4 @@
-import { View, Image, FlatList, ScrollView, Pressable } from 'react-native'
+import { View, Image, FlatList, ScrollView, Pressable, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Swiper from 'react-native-swiper'
 
@@ -27,7 +27,13 @@ const HomePage = ({ navigation }) => {
   const promotionalProducts = useSelector(state => state.product.promotionalProducts)
   const [indexCategory, setIndexCategory] = useState(0)
   const [productCategory, setProductCategory] =useState([])
+  const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch()
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    callApi();
+  }, []);
 
   const callApi = async () => {
     try {
@@ -37,7 +43,7 @@ const HomePage = ({ navigation }) => {
       dispatch(setProducts(products))
       dispatch(setPromotionalProducts(promotionalProduct))
       
-      const proteinGainWeight = products.filter(product => product?.typeProduct.includes("Protein & gain weight"))
+      const proteinGainWeight = products.filter(product => product?.typeProduct.includes("Protein & Gain weight"))
       setProductCategory(proteinGainWeight)
 
     } catch (error) {
@@ -45,6 +51,8 @@ const HomePage = ({ navigation }) => {
         open: true,
         title: error.message
       }))
+    } finally {
+      setRefreshing(false)
     }
   }
 
@@ -55,7 +63,7 @@ const HomePage = ({ navigation }) => {
   const renderCategoryProducts = () => {
     switch (indexCategory) {
       case 0:
-        const proteinGainWeight = products.filter(product => product?.typeProduct.includes("Protein & gain weight"))
+        const proteinGainWeight = products.filter(product => product?.typeProduct.includes("Protein & Gain weight"))
         setProductCategory(proteinGainWeight)
         break
       case 1:
@@ -84,16 +92,16 @@ const HomePage = ({ navigation }) => {
       <View style={styles.header}>
         <View style={styles.leftHeaderWrapper}>
           <Pressable onPress={() => navigation.navigate("Profile")}>
-            {user.profilePicture.length > 0 ?
+            {user.profilePicture ?
               <Image source={{
-                uri: "https://i.ibb.co/sy1zLNy/Khanh-Quynh.jpg"
+                uri: user.profilePicture
               }} style={styles.avatar} />
               :
               <Image source={defaultImage} style={styles.avatar} />
             }
           </Pressable>
           <View style={styles.textWrapper}>
-            <MyText title={"Good morning!"} variant="h4" color={Color.PRIMARY_YELLOW_COLOR} style={{ textAlign: "left" }} />
+            <MyText title={"Welcome Back!"} variant="h4" color={Color.PRIMARY_YELLOW_COLOR} style={{ textAlign: "left" }} />
             <MyText title={user.username} numberOfLines={2} variant="body1" color={Color.PRIMARY_YELLOW_COLOR} style={{ lineHeight: 27, width: 250, textAlign: "left", fontSize: 20 }} />
           </View>
         </View>
@@ -101,7 +109,11 @@ const HomePage = ({ navigation }) => {
           <Ionicons name="ios-chatbubble-ellipses-sharp" size={35} color={Color.PRIMARY_YELLOW_COLOR} />
         </Pressable>
       </View>
-      <ScrollView style={{}}>
+      <ScrollView refreshControl={<RefreshControl
+            refreshing={refreshing}  
+            onRefresh={onRefresh}
+            colors={[Color.PRIMARY_YELLOW_COLOR]}
+          />}>
         <View style={styles.searchContainer}>
           <Search />
         </View>

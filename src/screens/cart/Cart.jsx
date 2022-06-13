@@ -40,7 +40,7 @@ const Cart = () => {
         <MyText title={`${FormatMoney(totalPrice)} đ`} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
       </View>
       <View style={styles.button}>
-        <PrimaryButton handleOnPress={() => navigation.navigate("Payment")} title={"Checkout"} />
+        <PrimaryButton disable={productsInCart.length > 0 && totalPrice > 0 ? false : true} handleOnPress={() => navigation.navigate("Payment")} title={"Checkout"} />
       </View>
     </View>
   )

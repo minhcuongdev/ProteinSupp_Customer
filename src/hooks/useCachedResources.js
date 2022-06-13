@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { login } from "src/redux/slices/accountSlice";
+import { setSnackBar } from "src/redux/slices/snackBarSlice";
 
 const useCachedResources = () => {
   const [isLoadingComplete, setIsLoadingComplete] = useState(false);
@@ -14,7 +15,10 @@ const useCachedResources = () => {
       const account = await getAccountFromDevice();
       if (account !== null) dispatch(login(account));
     } catch (error) {
-      console.log(error);
+      dispatch(setSnackBar({
+        open: true,
+        title: error.response.data
+      }))
     }
   };
 
@@ -26,7 +30,10 @@ const useCachedResources = () => {
         return JSON.parse(jsonValue);
       } else return null;
     } catch (error) {
-      console.log(error);
+      dispatch(setSnackBar({
+        open: true,
+        title: error.response.data
+      }))
     }
   };
 
@@ -44,8 +51,11 @@ const useCachedResources = () => {
         });
 
         await checkHasBeenLogin();
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        dispatch(setSnackBar({
+          open: true,
+          title: error.response.data
+        }))
       } finally {
         setIsLoadingComplete(true);
         SplashScreen.hideAsync();

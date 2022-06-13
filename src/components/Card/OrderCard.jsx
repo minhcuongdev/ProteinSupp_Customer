@@ -4,7 +4,7 @@ import MyText from '../MyText/MyText'
 import styles from './CardStyles'
 import Color from 'src/constants/Color'
 import PrimaryButton from '../PrimaryButton/PrimaryButton'
-
+import { useNavigation } from '@react-navigation/native'
 import productDefaultImage from 'src/assets/images/productDefaultImage.png'
 
 
@@ -26,7 +26,9 @@ export const ProductItem = ({ title, price, quality, uriImage }) => {
   )
 }
 
-const OrderCard = ({orderTime, status, products, total}) => {
+const OrderCard = ({orderTime, status, products, total, billId}) => {
+  const navigation = useNavigation()
+
   return (
     <View style={styles.orderCardContainer}>
       <View style={styles.textOrderCardContainer}>
@@ -37,11 +39,11 @@ const OrderCard = ({orderTime, status, products, total}) => {
         <MyText title={"Status"} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} style={{ fontSize: 14 }} />
         <MyText title={status} variant="h3" color={Color.PRIMARY_YELLOW_COLOR} />
       </View>
-      {products.map(item => <ProductItem key={item.id}
-        title={item.name}
-        price={item.price}
+      {products.map((item, index) => <ProductItem key={index}
+        title={item.nameProduct}
+        price={item.priceProduct}
         quality={item.quality}
-        uriImage={item.uriImage}
+        uriImage={item.imageProduct}
       />)}
       <View style={styles.divide} />
       <View style={styles.textOrderCardContainer}>
@@ -50,7 +52,7 @@ const OrderCard = ({orderTime, status, products, total}) => {
       </View>
       <PrimaryButton
         title={"Give feedback"}
-        handleOnPress={() => console.log("give feedback")} 
+        handleOnPress={() => navigation.navigate("Give Feedback", {billOrder: billId})} 
         style={{width: 160, alignSelf: "flex-end", marginTop: 10}}
         height={45}
       />

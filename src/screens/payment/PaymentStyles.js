@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
   textTitleAddressCard: {
     fontSize: 14,
     color: Color.PRIMARY_YELLOW_COLOR,
-    lineHeight:20
+    lineHeight:20,
+    textAlign: "left"
   },
   textAddressCard: {
     fontSize: 10,

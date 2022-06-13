@@ -11,6 +11,7 @@ import { logout } from 'src/redux/slices/accountSlice'
 import { useNavigation } from '@react-navigation/native'
 import authApi from 'src/apis/authApi'
 import { saveAccountToDevice, saveAccessTokenToDevice, saveRefreshTokenToDevice, getRefreshTokenFromDevice } from 'src/utils/AsyncStorageLocal'
+import { setSnackBar } from 'src/redux/slices/snackBarSlice'
 
 const ItemSettingButton = ({ Icon, nameIcon, colorIcon, sizeIcon, title, colorTitle, onPressButton }) => {
   return (
@@ -40,7 +41,10 @@ const Setting = () => {
       saveRefreshTokenToDevice(null)
       dispatch(logout())
     } catch (error) {
-      console.log(error)
+      dispatch(setSnackBar({
+        open: true,
+        title: error.response.data
+      }))
     }
   }
 
@@ -78,15 +82,6 @@ const Setting = () => {
         sizeIcon={24}
         colorTitle={Color.NEUTRAL_01}
         onPressButton={() => console.log("Payment Methods")}
-      />
-      <ItemSettingButton
-        title={"Follow order"}
-        Icon={AntDesign}
-        nameIcon={"exception1"}
-        colorIcon={Color.PRIMARY_YELLOW_COLOR}
-        sizeIcon={30}
-        colorTitle={Color.NEUTRAL_01}
-        onPressButton={() => console.log("Follow order")}
       />
       <ItemSettingButton
         title={"Help"}
