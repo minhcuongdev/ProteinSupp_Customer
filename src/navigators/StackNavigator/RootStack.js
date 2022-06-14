@@ -19,6 +19,7 @@ import Order from "src/screens/order/Order";
 import Chat from "src/screens/chat/Chat";
 import OrderDetail from "src/screens/OrderDetail/OrderDetail";
 import GiveFeedback from "src/screens/GiveFeedback/GiveFeedback";
+import CancelOrder from "src/screens/CancelOrder/CancelOrder";
 
 import HeaderLeft from "src/components/HeaderStackBar/HeaderLeft";
 import HeaderRight from "src/components/HeaderStackBar/HeaderRight";
@@ -185,6 +186,15 @@ const RootStackNavigator = () => {
           <Stack.Screen
             name="Give Feedback"
             component={GiveFeedback}
+            options={{
+              headerTitleAlign: "center",
+              headerTitle: (props) => <HeaderTitle {...props} />,
+              headerBackVisible: false,
+            }}
+          />
+           <Stack.Screen
+            name="Cancel Order"
+            component={CancelOrder}
             options={{
               headerTitleAlign: "center",
               headerTitle: (props) => <HeaderTitle {...props} />,

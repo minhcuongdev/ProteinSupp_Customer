@@ -23,12 +23,15 @@ export const billSlice = createSlice({
     },
     setBillOrders: (state, actions) => {
       state.billOrders = actions.payload
+    },
+    removeBill: (state, actions) => {
+      state.bills = state.bills.filter(bill => bill._id !== actions.payload._id)
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setBills, getBillById, setOneBill, setBillOrders } = billSlice.actions
+export const { setBills, getBillById, setOneBill, setBillOrders,removeBill } = billSlice.actions
 
 const billSliceReducer = billSlice.reducer
 

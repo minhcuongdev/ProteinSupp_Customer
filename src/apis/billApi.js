@@ -9,6 +9,9 @@ const billApi = {
   },
   getOrderBill: () => {
     return axiosClient.get("/bills?delivered=true")
+  },
+  updatedBill: (billId, payload) => {
+    return axiosClient.put(`/bills/${billId}`, payload)
   }
 }
 

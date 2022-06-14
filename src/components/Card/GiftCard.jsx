@@ -5,13 +5,13 @@ import styles from './CardStyles'
 import MyText from '../MyText/MyText'
 import Color from 'src/constants/Color'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import bigDeal from "src/assets/images/bigDeal.jpg"
 
-const GiftCard = ({title, desc, date, uriImage}) => {
+
+const GiftCard = ({title, desc, date, uriImage, viewed}) => {
   return (
-    <View style={styles.giftCardContainer}>
+    <View style={[styles.giftCardContainer, {backgroundColor: viewed ? Color.WHITE: Color.PRIMARY_YELLOW_COLOR_5}]}>
       <View style={styles.giftCardImageContainer}>
-        <Image source={bigDeal} style={styles.giftCardImage} />
+        <Image source={uriImage} style={styles.giftCardImage} />
       </View>
       <View style={styles.contentGiftCardContainer}>
         <MyText title={title} />

@@ -12,7 +12,6 @@ const CommentProduct = ({nameUser, uriAvatar, comment, point}) => {
     stars.push(i)
   }
 
-  console.log(stars)
 
   return (
     <View style={styles.container}>

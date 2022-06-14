@@ -14,6 +14,7 @@ const FollowOrder = () => {
   const bills = useSelector(state => state.bill.bills)
   const [refreshing,setRefreshing] = useState(false)
 
+
   const callApi = async () => {
     try {
       const bills = await billApi.getAllBill()
@@ -29,6 +30,7 @@ const FollowOrder = () => {
   useEffect(() => {
     callApi()
   }, [])
+
 
   return (
     <View style={styles.container}>

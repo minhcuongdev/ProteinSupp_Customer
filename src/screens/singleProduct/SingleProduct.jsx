@@ -61,7 +61,7 @@ const SingleProduct = () => {
         <View style={styles.priceAndRateProduct}>
           <View style={styles.rateStar}>
             <Entypo name="star" size={24} color={Color.PRIMARY_YELLOW_COLOR} />
-            <MyText title={"4.8"} variant="h2" />
+            <MyText title={"5.0"} variant="h2" />
           </View>
           <MyText title={`${FormatMoney(product.price)} đ`} variant="h1" color={Color.PRIMARY_YELLOW_COLOR} />
         </View>
