@@ -18,11 +18,11 @@ import TwoCircleHeader from 'src/components/TwoCircleHeader/TwoCircleHeader';
 import MyText from 'src/components/MyText/MyText';
 import Color from 'src/constants/Color';
 import { saveAccountToDevice, saveAccessTokenToDevice, saveRefreshTokenToDevice } from 'src/utils/AsyncStorageLocal';
-
+import * as Facebook from 'expo-facebook';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { login } from 'src/redux/slices/accountSlice';
-
+import * as GoogleSignIn from 'expo-google-sign-in';
 import { setSnackBar } from 'src/redux/slices/snackBarSlice';
 
 import authApi from 'src/apis/authApi';
@@ -63,6 +63,26 @@ const Login = () => {
     return !email.includes('@') && email !== "";
   };
 
+  async function logInFB() {
+    try {
+      await Facebook.initializeAsync({
+        appId: '3311116369132263',
+      });
+      const { type, token, expirationDate, permissions, declinedPermissions } =
+        await Facebook.logInWithReadPermissionsAsync({
+          permissions: ['public_profile'],
+        });
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+        Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  }
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
@@ -74,7 +94,7 @@ const Login = () => {
             <MyText title={"You can discover supplements which is suitable for you"} color={Color.SECONDARY_YELLOW_COLOR} numberOfLines={2} style={{ textAlign: "center", width: 300 }} />
             <View style={styles.socialButtonWrapper}>
               <SocialButton Icon={AntDesign} title={"Google"} iconName={"google"} handleOnPress={() => console.log("google")} />
-              <SocialButton Icon={FontAwesome} title={"Facebook"} iconName={"facebook"} handleOnPress={() => console.log("facebook")} />
+              <SocialButton Icon={FontAwesome} title={"Facebook"} iconName={"facebook"} handleOnPress={() => logInFB()} />
             </View>
             <View style={styles.textFieldWrapper}>
               <MyTextField value={email} placeholder={"Enter your email"} onChangeText={setEmail} />

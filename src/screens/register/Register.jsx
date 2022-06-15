@@ -31,7 +31,7 @@ const Register = () => {
           <MyTextField placeholder={"Enter your password"} value={password} onChangeText={setPassword} secureTextEntry={true} />
           <MyTextField placeholder={"Confirm password"} value={confirmPassword} onChangeText={setConfirmPassword} secureTextEntry={true} />
         </View>
-        <PrimaryButton title={"Register"} />
+        <PrimaryButton handleOnPress={() => {}} title={"Register"} />
         <View style={styles.footer}>
           <MyText title={"Already have an account?"} color={Color.PRIMARY_YELLOW_COLOR} style={{ marginRight: 10 }} variant="h4" />
           <Pressable onPress={() => navigation.navigate("Login")} style={({ pressed }) => [
